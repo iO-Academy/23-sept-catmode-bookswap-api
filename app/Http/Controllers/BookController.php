@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Book;
@@ -16,10 +15,9 @@ class BookController extends Controller
         $this->book=$book;
     }
 
-
     public function getAllBooks()
     {
-        $books=$this->book->all();
+        $books = $this->book->all();
 
         foreach($books as $book) {
             $book->genre->name;
@@ -27,8 +25,8 @@ class BookController extends Controller
         }
 
         return response()->json([
-            'message'=> 'Books successfully retrived', 
-            'data'=> $books
+            'message' => 'Books successfully retrived', 
+            'data' => $books
         ], 200);
     }
 }
