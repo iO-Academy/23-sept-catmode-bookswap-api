@@ -20,10 +20,10 @@ class BookController extends Controller
     public function getAllBooks()
     {
         $books=$this->book->all();
-        // $books->genres;
 
         foreach($books as $book) {
             $book->genre->name;
+            $book->reviews;
         }
 
         return response()->json([
