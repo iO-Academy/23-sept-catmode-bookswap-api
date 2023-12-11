@@ -2,23 +2,38 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Models\Genre; // Make sure to import the Genre model
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class GenreTest extends TestCase
 {
     use DatabaseMigrations;
+
     /**
-     * A basic test example.
+     * Test to view all genres.
      */
     public function test_view_all_genres(): void
     {
-        $response = $this->get('/api/genres');
+        Genre::factory()->create();
 
-        $response
-        ->assertStatus(200)
-        ->assertJson(['message'=>'Genres retrieved']);
+        $response = $this->getJson('/api/genres');
+        $response->assertStatus(200)
+            ->assertJson(function (AssertableJson $json) {
+                $json
+                    ->hasAll(['message', 'data'])
+                    ->has('data', 1, function (AssertableJson $json) {
+                        $json
+                            ->hasAll([
+                                'id',
+                                'name',
+                            ])
+                            ->whereAllType([
+                                'id' => 'integer',
+                                'name' => 'string',
+                            ]);
+                    });
+            });
     }
 }

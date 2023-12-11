@@ -13,9 +13,9 @@ class GenreController extends Controller
         $this->genre=$genre;
     }
 
-    public function getAllGenres(Genre $genre) 
+    public function getAllGenres ()
     {
-        $genres = Genre::all(['id', 'name']);
+        $genres = $this->genre->all(['id', 'name']);
 
         return response()->json([
             'data'=> $genres,
