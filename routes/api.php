@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,10 @@ Route::controller(BookController::class)->group(function() {
     Route::get('/books', 'getAllBooks');
     Route::get('/books/{id}', 'getBookById');
 });
+
+Route::controller(GenreController::class)->group(function() {
+    Route::get('/genres', 'getAllGenres');
+});
+
 
 
