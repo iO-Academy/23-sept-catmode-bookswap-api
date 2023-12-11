@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+use App\Models\Book;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +18,9 @@ class ClaimFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'book_id' => Book::factory(),
+            'name' => $this->faker->text(255),
+            'email' => $this->faker->email(), 
         ];
     }
 }
