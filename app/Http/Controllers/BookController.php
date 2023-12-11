@@ -71,7 +71,11 @@ class BookController extends Controller
 
         $book->claim;
 
-        dd($book->claim);
+        if(!is_null($book->claim)) {
+            return response()->json([
+                'message' => "Book $id is already claimed"
+            ], 400);
+        }
 
          // Add the request data to a new product
          $new_claim = new Claim();
