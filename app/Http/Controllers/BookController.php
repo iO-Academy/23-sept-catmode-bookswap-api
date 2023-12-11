@@ -77,16 +77,19 @@ class BookController extends Controller
             ], 400);
         }
 
-         // Add the request data to a new product
-         $new_claim = new Claim();
-         $new_claim->book_id = $id;       
-         $new_claim->name = $request->name;
-         $new_claim->email = $request->email;
+        // Add the request data to a new claim
+        $new_claim = new Claim();
+        $new_claim->book_id = $id;       
+        $new_claim->name = $request->name;
+        $new_claim->email = $request->email;
 
-         if($new_claim->save()) {
-            return response()->json([
-                'message' => "Book $id was claimed"
-            ], 200);
+        $book->claimed_by_name = $request->name;
+        $book->save();
+
+        if($new_claim->save()) {
+        return response()->json([
+            'message' => "Book $id was claimed"
+        ], 200);
         }
 
 
