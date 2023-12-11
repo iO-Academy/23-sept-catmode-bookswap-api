@@ -20,4 +20,9 @@ class Book extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function claim(): BelongsTo 
+    {
+        return $this->belongsTo(Claim::class);
+    }
 }
