@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Book extends Model
 {
@@ -21,8 +22,8 @@ class Book extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function claim(): BelongsTo 
+    public function claim(): HasOne 
     {
-        return $this->belongsTo(Claim::class);
+        return $this->hasOne(Claim::class);
     }
 }
