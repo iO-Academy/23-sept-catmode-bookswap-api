@@ -44,5 +44,42 @@ class BookTest extends TestCase
         });
 }
 
+    public function test_get_book_by_id(): void
+    {
+        Book::factory()->create();
+
+        $response = $this->getJson('/api/books/1');
+
+        $response
+                ->assertStatus(200)
+                ->assertJson(function(AssertableJson $json)
+                {
+                    $json
+                        ->hasAll(['message', 'data'])
+                                ->whereAllType ([
+                                    'data.id' => 'integer',
+                                    'data.title' => 'string',
+                                    'data.author' => 'string',
+                                    'data.blurb' => 'string',
+                                    'data.page_count' => 'integer',
+                                    'data.year' => 'integer',
+                                    'data.image' => 'string',
+                                    'data.genre_id' => 'integer'
+                                ]);
+                });
+
+    }
+
+    public function test_get_book_by_id_invalid(): void
+        {
+            Book::factory()->create();
+
+            $response = $this->getJson('/api/books/3');
+
+            $response->assertStatus(404)
+                    ->assertJson([
+                        'message' => "Book with id 3 not found"
+                    ]);
+        }
 
 }
