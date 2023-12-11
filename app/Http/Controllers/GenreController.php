@@ -19,7 +19,7 @@ class GenreController extends Controller
 
         return response()->json([
             'data'=> $genres,
-            'message'=> 'Genres retrived', 
+            'message'=> 'Genres retrieved', 
         ], 200);
     }
 
