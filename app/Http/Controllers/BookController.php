@@ -21,7 +21,11 @@ class BookController extends Controller
     {
         $books = $this->book->all();
         
-        if (isset($request->claimed)) {
+        if ($request->claimed) {
+
+            $request->validate([
+                'claimed' => 'integer|min:0|max:1',
+            ]);
 
             if ($request->claimed == 1) {
                 $books = $this->book->where('claimed_by_name', '!=', '')->get();
