@@ -88,11 +88,15 @@ class BookTest extends TestCase
     public function test_get_books_filtered_by_genre(): void
     {
         
-            $genre = Genre::factory()->create();
+            $genre1 = Genre::factory()->create();
             
-            Book::factory()->count(3)->create(['genre_id' => $genre->id]);
+            Book::factory()->count(3)->create(['genre_id' => $genre1->id]);
 
-            $response = $this->getJson('/api/books?genre=Romance');
+            $genre2 = Genre::factory()->create();
+            
+            Book::factory()->count(3)->create(['genre_id' => $genre2->id]);
+
+            $response = $this->getJson('/api/books?genre=1');
 
             $response
                 ->assertStatus(200)
@@ -107,6 +111,7 @@ class BookTest extends TestCase
                                     'title' => 'string',
                                     'author' => 'string',
                                     'blurb' => 'string',
+                                    'claimed_by_name' =>'string',
                                     'page_count' => 'integer',
                                     'year' => 'integer',
                                     'image' => 'string',

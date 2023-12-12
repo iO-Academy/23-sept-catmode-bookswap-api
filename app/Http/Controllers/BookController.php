@@ -25,7 +25,7 @@ class BookController extends Controller
         $books = $this->book->all();
        
         if ($request->has('genre')) {
-            $genre = Genre::where('name', $request->genre)->first();
+            $genre = Genre::find($request->genre);
     
             if ($genre) {
                 $books = $books->where('genre_id', $genre->id);
