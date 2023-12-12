@@ -129,8 +129,14 @@ class BookController extends Controller
                 'message' => "Book $id is not currently claimed"
             ], 400);
         }
-        
+
         $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
+
+        if ($request->email != $claim->email) {
+            return response()->json([
+                'message' => "Book $id was not returned. $request->email did not claim this book."
+            ], 400);           
+        }
 
         $book->claimed_by_name = '';
         $book->save(); 
