@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\Claim;
 use Exception;
 use Illuminate\Http\Request;
 
