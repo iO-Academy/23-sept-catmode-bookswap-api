@@ -6,15 +6,18 @@ use App\Models\Book;
 use App\Models\Claim;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BookController extends Controller
 {
-
+    use SoftDeletes;
     private Book $book;
+    private Claim $claim;
 
-    public function __construct(Book $book) 
+    public function __construct(Book $book, Claim $claim) 
     {
         $this->book=$book;
+        $this->claim = $claim;
     }
 
     public function getAllBooks(Request $request)
@@ -102,7 +105,41 @@ class BookController extends Controller
             'message' => "Book $id was claimed"
         ], 200);
         }
+    }
 
+    public function returnBookById(Int $id, Request $request)
+    {
+        try {
+            $book = $this->book->findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Book $id was not found"
+            ], 404);
+        }
+
+        // Validating the request data
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $book->claim;
+
+        $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
+
+        if(is_null($book->claim)) {
+            return response()->json([
+                'message' => "Book $id is not currently claimed"
+            ], 400);
+        }
+
+        $book->claimed_by_name = '';
+        $book->save(); 
+
+        $claim->delete();
+
+        return response()->json([
+            'message' => "Book $id was returned"
+        ], 200);
 
     }
 
