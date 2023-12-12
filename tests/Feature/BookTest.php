@@ -100,15 +100,6 @@ class BookTest extends TestCase
 
     public function test_get_all_claimed_books_invalid(): void
     {
-        Book::factory()->create();
-        $book = Book::factory()->create();
-
-        $book->id = 2;
-        $book->claimed_by_name = '';
-
-      
-        $book->save();
-
         $response = $this->getJson('/api/books?claimed=9');
         $response
                 ->assertStatus(422)
