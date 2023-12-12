@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Book;
+use App\Models\Genre; 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -71,7 +72,7 @@ class BookTest extends TestCase
     }
 
     public function test_get_book_by_id_invalid(): void
-        {
+    {
             Book::factory()->create();
 
             $response = $this->getJson('/api/books/3');
@@ -80,6 +81,37 @@ class BookTest extends TestCase
                     ->assertJson([
                         'message' => "Book with id 3 not found"
                     ]);
+    }
+
+    public function test_get_books_filtered_by_genre(): void
+    {
+        
+            $genre = Genre::factory()->create();
+            
+            Book::factory()->count(3)->create(['genre_id' => $genre->id]);
+
+            $response = $this->getJson('/api/books?genre=Romance');
+
+            $response
+                ->assertStatus(200)
+                ->assertJson(function (AssertableJson $json) {
+                    $json
+                        ->hasAll(['message', 'data'])
+                        ->has('data', 3, function (AssertableJson $json) {
+                            $json
+                                ->hasAll (['id', 'title', 'author','blurb', 'page_count', 'year', 'image', 'created_at', 'updated_at', 'genre_id', 'genre', 'reviews'])
+                                ->whereAllType ([
+                                    'id' => 'integer',
+                                    'title' => 'string',
+                                    'author' => 'string',
+                                    'blurb' => 'string',
+                                    'page_count' => 'integer',
+                                    'year' => 'integer',
+                                    'image' => 'string',
+                                    'genre_id' => 'integer',
+                                ]);
+                        });
+                });
         }
 
-}
+    }

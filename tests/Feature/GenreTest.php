@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Genre; // Make sure to import the Genre model
+use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
