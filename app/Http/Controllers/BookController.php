@@ -17,10 +17,19 @@ class BookController extends Controller
         $this->book=$book;
     }
 
-    public function getAllBooks()
+    public function getAllBooks(Request $request)
     {
         $books = $this->book->all();
+        
+        if (isset($request->claimed)) {
 
+            if ($request->claimed == 1) {
+                $books = $this->book->where('claimed_by_name', '!=', '')->get();
+            } else {
+                $books = $this->book->where('claimed_by_name', '=', '')->get();  
+            }
+        }
+        
         foreach($books as $book) {
             $book->genre->name;
             $book->reviews;
@@ -92,4 +101,5 @@ class BookController extends Controller
 
 
     }
+
 }
