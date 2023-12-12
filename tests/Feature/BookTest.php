@@ -30,12 +30,13 @@ class BookTest extends TestCase
                         ->hasAll(['message', 'data'])
                         ->has('data', 1, function(AssertableJson $json) {
                             $json
-                                ->hasAll (['id', 'title', 'author','blurb', 'page_count', 'year', 'image', 'created_at', 'updated_at', 'genre_id', 'genre', 'reviews'])
+                                ->hasAll (['id', 'title', 'author','blurb', 'page_count', 'year', 'image', 'created_at', 'updated_at', 'genre_id', 'genre', 'reviews', 'claimed_by_name',])
                                     ->whereAllType([
                                         'id' => 'integer',
                                         'title' => 'string',
                                         'author' => 'string',
                                         'blurb' => 'string',
+                                        'claimed_by_name' => 'string',
                                         'page_count' => 'integer',
                                         'year' => 'integer',
                                         'image' => 'string',
@@ -62,6 +63,7 @@ class BookTest extends TestCase
                                     'data.title' => 'string',
                                     'data.author' => 'string',
                                     'data.blurb' => 'string',
+                                    'data.claimed_by_name' => 'string',
                                     'data.page_count' => 'integer',
                                     'data.year' => 'integer',
                                     'data.image' => 'string',
@@ -113,5 +115,6 @@ class BookTest extends TestCase
                         });
                 });
         }
+        
 
     }

@@ -63,4 +63,46 @@ class BookController extends Controller
             'data' => $book
         ], 200);
     }
+
+    public function claimBookById(Int $id, Request $request)
+    {
+        try {
+            $book = $this->book->findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Book $id was not found"
+            ], 404);
+        }
+
+        // Validating the request data
+        $request->validate([
+            'name' => 'required|string|min:1|max:255',
+            'email' => 'required|email',
+        ]);
+
+        $book->claim;
+
+        if(!is_null($book->claim)) {
+            return response()->json([
+                'message' => "Book $id is already claimed"
+            ], 400);
+        }
+
+        // Add the request data to a new claim
+        $new_claim = new Claim();
+        $new_claim->book_id = $id;       
+        $new_claim->name = $request->name;
+        $new_claim->email = $request->email;
+
+        $book->claimed_by_name = $request->name;
+        $book->save();
+
+        if($new_claim->save()) {
+        return response()->json([
+            'message' => "Book $id was claimed"
+        ], 200);
+        }
+
+
+    }
 }
