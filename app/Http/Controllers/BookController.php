@@ -124,13 +124,13 @@ class BookController extends Controller
 
         $book->claim;
 
-        $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
-
         if(is_null($book->claim)) {
             return response()->json([
                 'message' => "Book $id is not currently claimed"
             ], 400);
         }
+        
+        $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
 
         $book->claimed_by_name = '';
         $book->save(); 
