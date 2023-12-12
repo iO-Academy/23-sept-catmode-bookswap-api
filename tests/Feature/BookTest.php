@@ -78,7 +78,6 @@ class BookTest extends TestCase
         $claim = Claim::factory()->create();
        
         $book->claimed_by_name = '';
-        $claim->book_id = '';
       
         $book->save();
         $claim->save();
