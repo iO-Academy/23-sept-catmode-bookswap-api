@@ -13,7 +13,7 @@ class ReviewController extends Controller
                 'name' => 'required|string|min:1|max:255',
                 'rating' => 'required|integer|min:0|max:5',
                 'review' => 'required|string|max:1000',
-                'book_id' => 'required|integer',
+                'book_id' => 'required|integer|exists:books,id',
             ]);
     
             // Add the request data to a new product
