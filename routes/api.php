@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(BookController::class)->group(function() {
     Route::get('/books', 'getAllBooks');
     Route::get('/books/{id}', 'getBookById');
-
     Route::put('/books/claim/{id}', 'claimBookById');
+    Route::get('/books', 'addNewBook');
 });
 
 Route::controller(GenreController::class)->group(function() {
