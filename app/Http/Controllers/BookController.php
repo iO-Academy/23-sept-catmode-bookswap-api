@@ -23,7 +23,7 @@ class BookController extends Controller
     {     
        
         $books = $this->book->all();
-       
+      
         if ($request->has('genre')) {
             $genre = Genre::find($request->genre);
     
@@ -32,6 +32,16 @@ class BookController extends Controller
             } else {
                 return response()->json(['message' => 'Genre not found'], 404);
             }
+        }
+
+        if ($request->has('search')) {
+            
+            $request->validate(['search'=>'string|min:1|max:255',]);
+            $books = Book::query()
+                            ->where('title', 'LIKE', "%$request->search%")
+                            ->orWhere('author', 'LIKE', "%$request->search%")
+                            ->orWhere('blurb', 'LIKE', "%$request->search%")
+                            ->get();      
         }
 
         foreach($books as $book) {
