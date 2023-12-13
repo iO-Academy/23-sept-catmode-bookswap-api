@@ -218,4 +218,23 @@ class BookTest extends TestCase
                 });
         }
         
-    }
+        
+    public function test_add_new_book_success(): void
+        {
+            $response = $this->postJson('/api/books', [
+                'title' => 'James Bond',
+                'author' => 'Ian Flemming',
+                'blurb' => 'This is a blurb for this book',
+                'page_count' => 48,
+                'year' => 1964,
+                'image' => 'https://picsum.photos/200/300',
+                'genre_id' => 1
+            ]);
+                $response->assertStatus(201)
+                        ->assertJson([
+                            'message' => 'Book created'
+                        ]);
+        
+        }
+
+     }
