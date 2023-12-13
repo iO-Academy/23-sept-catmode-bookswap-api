@@ -125,8 +125,9 @@ class BookController extends Controller
             'author' => 'required|string|min:5|max:255',
             'genre_id' => 'required|integer|max:20',
             'blurb' => 'string|max:255',
+            'page_count' => 'required|integer',
             'image' => 'string|max:255|url',
-            'year' => 'integer|max:4'
+            'year' => 'integer'
         ]);
 
         $new_book = new Book();
@@ -134,6 +135,7 @@ class BookController extends Controller
         $new_book->author = $request->author;
         $new_book->genre_id = $request->genre_id;
         $new_book->blurb = $request->blurb;
+        $new_book->page_count = $request->page_count;
         $new_book->image = $request->image;
         $new_book->year = $request->year;
 
