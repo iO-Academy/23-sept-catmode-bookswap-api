@@ -33,7 +33,19 @@ class BookController extends Controller
                 return response()->json(['message' => 'Genre not found'], 404);
             }
         }
+        
+        if ($request->claimed != null) {
+            $request->validate([
+                'claimed' => 'integer|min:0|max:1',
+            ]);
 
+            if ($request->claimed == 1) {
+                $books = $this->book->where('claimed_by_name', '!=', '')->get();
+            } else {
+                $books = $this->book->where('claimed_by_name', '=', '')->get();  
+            }
+        }
+        
         foreach($books as $book) {
             $book->genre->name;
             $book->reviews;
@@ -105,4 +117,5 @@ class BookController extends Controller
 
 
     }
+
 }
