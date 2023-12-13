@@ -139,13 +139,16 @@ class BookController extends Controller
         }
 
         $book->claimed_by_name = '';
-        $book->save(); 
-
-        $claim->delete();
-
+   
+        if (!$book->save() || !$claim->delete()) {
+            return response()->json([
+                'message' => "Book $id was not able to be returned"
+            ], 500); 
+        }
         return response()->json([
             'message' => "Book $id was returned"
         ], 200);
+
 
     }
 
