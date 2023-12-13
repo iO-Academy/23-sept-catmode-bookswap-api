@@ -85,23 +85,4 @@ class ReturnTest extends TestCase
                  ]);
                 
     } 
-
-
-
-    // public function test_return_book_by_id_server_error(): void
-    // {
-    //     Claim::factory()->create();
-    //     $response = $this->putJson('/api/books/return/1', ['email'=>"test@test.com"]);
-        
-    //     abort(500);
-
-    //     try {
-            
-    //     } catch (Exception $e) {
-    //         $response->assertServerError()
-    //         ->assertJson([
-    //            'message' => 'Book 1 was returned'
-    //         ]);
-    //     }
-    // }
 }

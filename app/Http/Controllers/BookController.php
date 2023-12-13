@@ -6,11 +6,9 @@ use App\Models\Book;
 use App\Models\Claim;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BookController extends Controller
 {
-    use SoftDeletes;
     private Book $book;
     private Claim $claim;
 
@@ -130,7 +128,13 @@ class BookController extends Controller
             ], 400);
         }
 
-        $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
+        try {
+            $claim = $this->claim->where('book_id', '=', $id)->firstOrFail();
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Unexpected error occurred"
+            ], 500);
+        }
 
         if ($request->email != $claim->email) {
             return response()->json([
