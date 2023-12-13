@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::controller(BookController::class)->group(function() {
 
 Route::controller(GenreController::class)->group(function() {
     Route::get('/genres', 'getAllGenres');
+});
+
+Route::controller(ReviewController::class)->group(function(){
+    Route::post('/reviews', 'addBookReview');
 });
 
 
