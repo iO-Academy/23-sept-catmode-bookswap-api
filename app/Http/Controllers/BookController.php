@@ -114,8 +114,6 @@ class BookController extends Controller
             'message' => "Book $id was claimed"
         ], 200);
         }
-
-
     }
 
     public function addNewBook(Request $request)
@@ -127,7 +125,7 @@ class BookController extends Controller
             'blurb' => 'string|max:255',
             'page_count' => 'required|integer',
             'image' => 'string|max:255|url',
-            'year' => 'integer'
+            'year' => 'integer|max:9999'
         ]);
 
         $new_book = new Book();
@@ -144,10 +142,9 @@ class BookController extends Controller
                 'message' => "Book created"
             ], 201);
         }
-
+  
         return response()->json([
-            'message' => "Unexpected error"
+            'message' => "Unexpected error occurred"
         ], 500);
     }
-
 }
