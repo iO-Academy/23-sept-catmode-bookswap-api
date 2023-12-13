@@ -17,7 +17,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->rollback('claimed_by_name')->nullable(false)->change();
+            $table->string('claimed_by_name')->nullable(false)->change();
         });
     }
 };
