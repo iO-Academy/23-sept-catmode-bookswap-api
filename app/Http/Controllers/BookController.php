@@ -23,28 +23,48 @@ class BookController extends Controller
     {     
        
         $books = $this->book->all();
-       
+
+        $query = $this->book->query();
+
+
+        if ($request->has('search')) {
+            
+            $request->validate(['search'=>'string|min:1|max:255',]);
+             
+            $query = $query->where(function ($search) use ($request) {
+                    $search->orWhere('title', 'LIKE', "%{$request->search}%")
+                           ->orWhere('blurb', 'LIKE', "%{$request->search}%")
+                           ->orWhere('author', 'LIKE', "%{$request->search}%");
+            });
+        }
+      
         if ($request->has('genre')) {
             $genre = Genre::find($request->genre);
     
             if ($genre) {
-                $books = $books->where('genre_id', $genre->id);
+                $query = $query->where('genre_id', $genre->id);
             } else {
                 return response()->json(['message' => 'Genre not found'], 404);
             }
         }
         
-        if ($request->claimed != null) {
+        if ($request->has('claimed')) {
+
             $request->validate([
                 'claimed' => 'integer|min:0|max:1',
             ]);
+    
+            $claimedValue = $request->claimed;
 
-            if ($request->claimed == 1) {
-                $books = $this->book->where('claimed_by_name', '!=', '')->get();
+            if ($claimedValue == 0) {
+                $query =  $query->where('claimed_by_name', '');
             } else {
-                $books = $this->book->where('claimed_by_name', '=', '')->get();  
+                $query =  $query->where('claimed_by_name', '!=', '');
             }
         }
+
+        $books = $query->get();
+
         
         foreach($books as $book) {
             $book->genre->name;
