@@ -67,7 +67,7 @@ class BookController extends Controller
 
         
         foreach($books as $book) {
-            $book->genre->name;
+            $book->genre;
             $book->reviews;
         }
 
