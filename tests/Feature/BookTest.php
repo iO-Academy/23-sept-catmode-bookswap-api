@@ -192,9 +192,15 @@ class BookTest extends TestCase
                 'author' => 'Harry Maguire',
                 'blurb' => 'Harry book',
             ]);
-        
+
+            $book2 = Book::factory()->create([
+                'title' => 'Lord of the Rings',
+                'author' => 'J.R.R. Tolkien',
+                'blurb' => 'Fantasy masterpiece',
+            ]);
+
             $response = $this->getJson('/api/books?search=Harry');
-        
+
             $response
                 ->assertStatus(200)
                 ->assertJson(function (AssertableJson $json) {
@@ -216,7 +222,35 @@ class BookTest extends TestCase
                                 ]);
                         });
                 });
-        }
+                
+                $responseAll = $this->getJson('/api/books?search=Harry&claimed=1&genre=1');
+                $responseAll
+                    ->assertStatus(200)
+                    ->assertJson(function (AssertableJson $json) {
+                        $json
+                            ->hasAll(['message', 'data'])
+                            ->has('data',1, function (AssertableJson $json) {
+                                $json
+                                    ->hasAll(['id', 'title', 'author','blurb', 'page_count', 'year', 'image', 'created_at', 'updated_at', 'genre_id','genre', 'reviews'])
+                                    ->whereAllType([
+                                        'id' => 'integer',
+                                        'title' => 'string',
+                                        'author' => 'string',
+                                        'blurb' => 'string',
+                                        'page_count' => 'integer',
+                                        'year' => 'integer',
+                                        'image' => 'string',
+                                        'genre_id' => 'integer',
+                                        'claimed_by_name' =>'string',
+                                    ])
+                                    
+                                    ->whereNot('claimed_by_name','')
+                                    ->where('genre_id', 1);
+                                    
+                            });
+                    });
+            }
+        
         
         
     public function test_add_new_book_success(): void
