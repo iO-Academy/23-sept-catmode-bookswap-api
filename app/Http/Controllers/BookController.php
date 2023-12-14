@@ -194,7 +194,7 @@ class BookController extends Controller
             'author' => 'required|string|min:5|max:255',
             'genre_id' => 'required|integer|max:20',
             'blurb' => 'string|max:255',
-            'page_count' => 'required|integer',
+            'page_count' => 'integer',
             'image' => 'string|max:255|url',
             'year' => 'integer|max:9999'
         ]);
