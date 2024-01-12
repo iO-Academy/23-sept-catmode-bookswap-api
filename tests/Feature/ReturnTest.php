@@ -44,7 +44,7 @@ class ReturnTest extends TestCase
         $claim = Claim::factory()->create();
         $book = Book::factory()->create();
 
-        $book->claimed_by_name = '';
+        $book->claimed_by_name = null;
         $claim->book_id = $book->id;
 
         $claim->save();

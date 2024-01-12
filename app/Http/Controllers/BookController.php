@@ -57,9 +57,9 @@ class BookController extends Controller
             $claimedValue = $request->claimed;
 
             if ($claimedValue == 0) {
-                $query =  $query->where('claimed_by_name', '');
+                $query =  $query->where('claimed_by_name', null);
             } else {
-                $query =  $query->where('claimed_by_name', '!=', '');
+                $query =  $query->where('claimed_by_name', '!=', null);
             }
         }
 
@@ -173,7 +173,7 @@ class BookController extends Controller
             ], 400);           
         }
 
-        $book->claimed_by_name = '';
+        $book->claimed_by_name = null;
    
         if (!$book->save() || !$claim->delete()) {
             return response()->json([

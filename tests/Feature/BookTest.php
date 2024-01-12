@@ -52,7 +52,7 @@ class BookTest extends TestCase
         $book = Book::factory()->create();
         $claim = Claim::factory()->create();
        
-        $book->claimed_by_name = '';
+        $book->claimed_by_name = null;
         $claim->book_id = '';
       
         $book->save();
@@ -78,7 +78,7 @@ class BookTest extends TestCase
         $book = Book::factory()->create();
         $claim = Claim::factory()->create();
        
-        $book->claimed_by_name = '';
+        $book->claimed_by_name = null;
       
         $book->save();
         $claim->save();
@@ -244,7 +244,7 @@ class BookTest extends TestCase
                                         'claimed_by_name' =>'string',
                                     ])
                                     
-                                    ->whereNot('claimed_by_name','')
+                                    ->whereNot('claimed_by_name', null)
                                     ->where('genre_id', 1);
                                     
                             });
